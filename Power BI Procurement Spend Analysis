@@ -1,0 +1,11 @@
+## 📊 Procurement Dashboard Overview
+This Power BI dashboard provides insights into procurement spend, supplier performance, and cost-saving opportunities.
+
+### 🔹 Total Spend by Supplier
+
+
+### 🔹 Monthly Spend Trends
+![Monthly Trends](screenshots/monthly_spend_trends.png)
+
+### 🔹 Top Costly Product Categories
+![Categories](screenshots/costly_categories.png)
