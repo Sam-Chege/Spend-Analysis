@@ -1,0 +1,51 @@
+-- 1️⃣ Total Spend by Supplier
+SELECT 
+    supplier_name, 
+    SUM(total_cost) AS total_spend, 
+    COUNT(order_id) AS total_orders
+FROM procurement_orders
+GROUP BY supplier_name
+ORDER BY total_spend DESC
+LIMIT 10;
+
+-- 2️⃣ Monthly Spend Trends
+SELECT 
+    DATE_TRUNC(order_date, MONTH) AS month, 
+    SUM(total_cost) AS monthly_spend
+FROM procurement_orders
+GROUP BY month
+ORDER BY month;
+
+-- 3️⃣ Top 5 Costly Product Categories
+SELECT 
+    category, 
+    SUM(total_cost) AS category_spend
+FROM procurement_orders
+GROUP BY category
+ORDER BY category_spend DESC
+LIMIT 5;
+
+-- 4️⃣ Orders Delivered Late (Potential Supplier Issues)
+SELECT 
+    supplier_name, 
+    COUNT(order_id) AS late_orders
+FROM procurement_orders
+WHERE delivery_date > expected_delivery_date
+GROUP BY supplier_name
+ORDER BY late_orders DESC;
+
+-- 5️⃣ Potential Cost Savings (Alternative Suppliers)
+SELECT 
+    p1.product_name, 
+    p1.supplier_name AS current_supplier, 
+    p1.unit_price AS current_price, 
+    p2.supplier_name AS cheaper_supplier, 
+    p2.unit_price AS cheaper_price, 
+    (p1.unit_price - p2.unit_price) AS potential_savings
+FROM procurement_orders p1
+JOIN procurement_orders p2 
+    ON p1.product_name = p2.product_name 
+    AND p1.supplier_name <> p2.supplier_name
+WHERE p2.unit_price < p1.unit_price
+ORDER BY potential_savings DESC
+LIMIT 10;
